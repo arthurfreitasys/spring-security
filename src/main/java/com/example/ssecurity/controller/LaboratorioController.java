@@ -21,4 +21,10 @@ public class LaboratorioController {
         return "Painel de gerenciamento de laboratorio (Acesso: Professor/Admin)";
 
     }
+
+    @GetMapping("/limpeza")
+    public String limpezaLab(){
+        return "Painel de gerenciamento da limpeza dos laboratorios(Acesso: Funcionarios da limpeza)";
+    }
+
 }

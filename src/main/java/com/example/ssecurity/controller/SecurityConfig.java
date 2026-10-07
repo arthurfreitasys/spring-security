@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll() // Rota raiz é publica
                         .requestMatchers("/horarios").hasAnyRole("USER", "ADMIN")// Acesso de alunos e professores
                         .requestMatchers("/gerenciar").hasAnyRole("ADMIN") // Apenas professores
+                        .requestMatchers("/limpeza").hasAnyRole("LIMPEZA")
                         .anyRequest().authenticated() //Qualquer outra rota exige login
                 )
                 .formLogin(Customizer.withDefaults()) //Habilita o formulario de login padrão do Spring
@@ -47,7 +48,13 @@ public class SecurityConfig {
                 .password(encoder.encode("admin123"))
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(aluno, professor);
+//Criando perfil de de funcionarios da limpeza
+        UserDetails funcLimpeza = User.builder()
+                .username("Francisco")
+                .password(encoder.encode("limpeza123"))
+                .roles("LIMPEZA")
+                .build();
+        return new InMemoryUserDetailsManager(aluno, professor, funcLimpeza);
     }
     // Definindo o codificador de senhas (Obrigatório no Spring Security)
     @Bean
